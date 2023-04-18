@@ -6,8 +6,9 @@ package gestion_docente.dto;
 
 /**
  *
- * @author Hector
+ * @author César Fernández García
+ * Esta clase permite la manipulación de la tabla student
  */
-public class EjemploDTO {
+public class StudentDTO {
     
 }
