@@ -168,7 +168,7 @@ public class CreateStudent extends javax.swing.JFrame {
         try{
             Connection conexion = new Connection("localhost", "sigedo", "postgres", "postgres", "5432");
             java.sql.Connection miConexion = conexion.getConnection();
-            
+            Boolean insertadoCorrectamente= false;
             String procedimientoInsertStudent = "{call \"public\".\"nombreMetodo\"(?,?,?,?,?,?)}";
             
             CallableStatement procInsertStudent = miConexion.prepareCall(procedimientoInsertStudent);//se crea el procedimiento CallableStatement el cual permite hacer llamadas a procedimietno almacenados en la Base de datos
@@ -188,7 +188,13 @@ public class CreateStudent extends javax.swing.JFrame {
             procInsertStudent.setString(4, municipalityTextField.getText());//se le pasa el 4 parametro q indica el municipio al cual pertenece
             procInsertStudent.setInt(5, (int)(groupComboBox.getSelectedItem()));//se le pasa el grupo al cual pertenece
             procInsertStudent.setInt(6, (int)(academicYearComboBox.getSelectedItem()));//se le pasa el anio al cual pertenece
-            JOptionPane.showMessageDialog(null,"Estudiante creado e insertado correctamente");
+            insertadoCorrectamente =  procInsertStudent.execute();
+            if (insertadoCorrectamente){
+                JOptionPane.showMessageDialog(null,"Estudiante creado e insertado correctamente");
+            }else{
+                JOptionPane.showMessageDialog(null,"Estudiante no fue creado e insertado correctamente");
+            }
+            
             
         }catch(ClassNotFoundException ex1){
             JOptionPane.showMessageDialog(null, "Ocurrio una excepcion Class Not found Exception");
