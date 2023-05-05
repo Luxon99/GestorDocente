@@ -10,15 +10,15 @@ import java.sql.SQLException;
  * @author César Fernández García
  * Esta clase define la conexion a la base de datos
  */
-public class Conection {
+public class Connection {
 
     private static java.sql.Connection connection;
 
-    public Conection(String serveraddres, String database, String user, String pass) throws ClassNotFoundException, SQLException {
+    public Connection(String serveraddres, String database, String user, String pasword, String port) throws ClassNotFoundException, SQLException {
 
         Class.forName("org.postgresql.Driver");
-        String url = "jdbc:postgresql://" + serveraddres + ":5433/" + database;
-        connection = DriverManager.getConnection(url, user, pass);
+        String url = "jdbc:postgresql://" + serveraddres + ":"+port+"/" + database;
+        connection = DriverManager.getConnection(url, user, pasword);
     }
 
     public java.sql.Connection getConnection() {

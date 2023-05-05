@@ -19,7 +19,7 @@ public class Principal extends javax.swing.JFrame {
      */
     public Principal() {
         initComponents();
-        EstudiantesVisual panel = new EstudiantesVisual();
+        StudentsVisual panel = new StudentsVisual();
         mostrarPanel(panel);
     }
 
@@ -36,6 +36,11 @@ public class Principal extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         opcionDatosEstudiantes = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -44,7 +49,7 @@ public class Principal extends javax.swing.JFrame {
         panelContenedor.setLayout(panelContenedorLayout);
         panelContenedorLayout.setHorizontalGroup(
             panelContenedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 783, Short.MAX_VALUE)
+            .addGap(0, 704, Short.MAX_VALUE)
         );
         panelContenedorLayout.setVerticalGroup(
             panelContenedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -60,6 +65,26 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jMenu1.add(opcionDatosEstudiantes);
+
+        jMenuItem1.setText("Años académicos");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
+
+        jMenuItem2.setText("Evaluaciones");
+        jMenu1.add(jMenuItem2);
+
+        jMenuItem3.setText("Grupos");
+        jMenu1.add(jMenuItem3);
+
+        jMenuItem4.setText("Asignaturas");
+        jMenu1.add(jMenuItem4);
+
+        jMenuItem5.setText("Salir");
+        jMenu1.add(jMenuItem5);
 
         jMenuBar1.add(jMenu1);
 
@@ -85,8 +110,8 @@ public class Principal extends javax.swing.JFrame {
     private void opcionDatosEstudiantesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opcionDatosEstudiantesActionPerformed
         // TODO add your handling code here:
         
-            if (!(panelContenedor.getComponents()[0] instanceof EstudiantesVisual)) {
-                EstudiantesVisual panel = new EstudiantesVisual();
+            if (!(panelContenedor.getComponents()[0] instanceof StudentsVisual)) {
+                StudentsVisual panel = new StudentsVisual();
                 mostrarPanel(panel);
             } else {
                 JOptionPane.showMessageDialog(null, "La opción ya está desplegada");
@@ -94,6 +119,12 @@ public class Principal extends javax.swing.JFrame {
         
 
     }//GEN-LAST:event_opcionDatosEstudiantesActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+        AcademicsYearsVisual panel = new AcademicsYearsVisual();
+        mostrarPanel(panel);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -150,6 +181,11 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem opcionDatosEstudiantes;
     private javax.swing.JPanel panelContenedor;
     // End of variables declaration//GEN-END:variables
