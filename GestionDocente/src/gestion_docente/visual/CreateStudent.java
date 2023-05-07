@@ -84,6 +84,11 @@ public class CreateStudent extends javax.swing.JFrame {
         });
 
         jButton2.setText("Salir y Cancelar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -168,12 +173,14 @@ public class CreateStudent extends javax.swing.JFrame {
         try{
             Connection conexion = new Connection("localhost", "sigedo", "postgres", "postgres", "5432");
             java.sql.Connection miConexion = conexion.getConnection();
-            Boolean insertadoCorrectamente= false;
-            String procedimientoInsertStudent = "{call \"public\".\"nombreMetodo\"(?,?,?,?,?,?)}";
+            
+            String procedimientoInsertStudent = "{call \"public\".\"insert_student\"(?,?,?,?,?,?)}";
             
             CallableStatement procInsertStudent = miConexion.prepareCall(procedimientoInsertStudent);//se crea el procedimiento CallableStatement el cual permite hacer llamadas a procedimietno almacenados en la Base de datos
-            procInsertStudent.setString(1, namesTextField.getText());//se le pasa por parametro 1 el nombre
-            procInsertStudent.setString(2, surnamesTextField.getText());// se le pasa por parametro 2 los apellidos
+            
+            procInsertStudent.setInt(1, 4);//se le pasa por parametro 1 el id
+            procInsertStudent.setString(2, namesTextField.getText());//se le pasa por parametro 2 el nombre
+            procInsertStudent.setString(3, surnamesTextField.getText());// se le pasa por parametro 3 los apellidos
             
             /*Esta parte convierte a booleano el cual es el valor q se va a almacenar en la base de datos
             Masculino -> true
@@ -184,12 +191,11 @@ public class CreateStudent extends javax.swing.JFrame {
             if (sexo.equals("Masculino")){
                 isMasculino = true;
             }
-            procInsertStudent.setBoolean(3, isMasculino);//se le pasa el 3 parametro q indica el sexo
-            procInsertStudent.setString(4, municipalityTextField.getText());//se le pasa el 4 parametro q indica el municipio al cual pertenece
-            procInsertStudent.setInt(5, (int)(groupComboBox.getSelectedItem()));//se le pasa el grupo al cual pertenece
-            procInsertStudent.setInt(6, (int)(academicYearComboBox.getSelectedItem()));//se le pasa el anio al cual pertenece
-            insertadoCorrectamente =  procInsertStudent.execute();
-            if (insertadoCorrectamente){
+            procInsertStudent.setBoolean(4, isMasculino);//se le pasa el 4 parametro q indica el sexo
+            procInsertStudent.setString(5, municipalityTextField.getText());//se le pasa el 5 parametro q indica el municipio al cual pertenece
+            procInsertStudent.setInt(6, 0);//se le pasa el grupo al cual pertenece
+                      
+            if (procInsertStudent.execute()){
                 JOptionPane.showMessageDialog(null,"Estudiante creado e insertado correctamente");
             }else{
                 JOptionPane.showMessageDialog(null,"Estudiante no fue creado e insertado correctamente");
@@ -197,14 +203,20 @@ public class CreateStudent extends javax.swing.JFrame {
             
             
         }catch(ClassNotFoundException ex1){
-            JOptionPane.showMessageDialog(null, "Ocurrio una excepcion Class Not found Exception");
+            JOptionPane.showMessageDialog(null, "Ocurrió una excepción Class Not found Exception");
         }catch(SQLException ex2){
-            JOptionPane.showMessageDialog(null, "Ocurrio una excepcion SQL");
-        }catch(Exception ex3){
+            JOptionPane.showConfirmDialog(null, "Ocurrió una excepción SQLExcepcion");
+        }
+        catch(Exception ex3){
             JOptionPane.showMessageDialog(null, ex3);
         }
         
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
