@@ -119,12 +119,12 @@ public class CreateAcademicsYear extends javax.swing.JFrame {
 
             String procedimientoInsertStudent = "{call \"public\".\"insert_year\"(?,?)}";
 
-            CallableStatement procInsertStudent = miConexion.prepareCall(procedimientoInsertStudent);//se crea el procedimiento CallableStatement el cual permite hacer llamadas a procedimietno almacenados en la Base de datos
+            CallableStatement procInsertYear = miConexion.prepareCall(procedimientoInsertStudent);//se crea el procedimiento CallableStatement el cual permite hacer llamadas a procedimietno almacenados en la Base de datos
 
-            procInsertStudent.setInt(1, (int) (yearSpinner.getValue()));//se le pasa por parametro 1 el año
-            procInsertStudent.setString(2, schollarCourseTextField.getText());//se le pasa por parametro 2 el curso escolar
+            procInsertYear.setInt(1, (int) (yearSpinner.getValue()));//se le pasa por parametro 1 el año
+            procInsertYear.setString(2, schollarCourseTextField.getText());//se le pasa por parametro 2 el curso escolar
 
-            if (procInsertStudent.execute()) {
+            if (procInsertYear.execute()) {
                 JOptionPane.showMessageDialog(null, "Año académico creado e insertado correctamente");
             } else {
                 JOptionPane.showMessageDialog(null, "Año académico no fue creado e insertado correctamente");

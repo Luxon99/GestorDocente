@@ -33,6 +33,11 @@ public class SubjectsVisual extends javax.swing.JPanel {
         subjectsTable = new javax.swing.JTable();
 
         jButton3.setText("Crear");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Eliminar");
 
@@ -51,10 +56,24 @@ public class SubjectsVisual extends javax.swing.JPanel {
                 {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Id_subject", "Name", "Hours", "Year"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(subjectsTable);
+        if (subjectsTable.getColumnModel().getColumnCount() > 0) {
+            subjectsTable.getColumnModel().getColumn(0).setResizable(false);
+            subjectsTable.getColumnModel().getColumn(1).setResizable(false);
+            subjectsTable.getColumnModel().getColumn(2).setResizable(false);
+            subjectsTable.getColumnModel().getColumn(3).setResizable(false);
+        }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -86,6 +105,12 @@ public class SubjectsVisual extends javax.swing.JPanel {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        CreateSubject createSubject = new CreateSubject();
+        createSubject.setVisible(true);
+    }//GEN-LAST:event_jButton3ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
