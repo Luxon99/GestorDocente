@@ -3,17 +3,32 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package gestion_docente.visual;
+
+import gestion_docente.services.ServicesLocator;
+import gestion_docente.utils.Connection;
+import java.sql.CallableStatement;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+import javax.swing.table.TableModel;
+import gestion_docente.services.StudentServices;
 /**
  *
  * @author Hector
  */
 public class StudentsVisual extends javax.swing.JPanel {
-
+    
     /**
      * Creates new form EstudiantesVisual
      */
+    private TableModel model;
     public StudentsVisual() {
+        
         initComponents();
+        try{
+        llenarTablaStudents();
+        }catch(SQLException ex){
+            ex.printStackTrace();
+        }
     }
 
     /**
@@ -76,6 +91,11 @@ public class StudentsVisual extends javax.swing.JPanel {
         });
 
         jButton2.setText("Eliminar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton1.setText("Modificar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -120,7 +140,58 @@ public class StudentsVisual extends javax.swing.JPanel {
         CreateStudent crearStudent = new CreateStudent();
         crearStudent.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
+    /**
+     * Este metodo elimina de la base de datos el elemento seleccionado en la
+     * tabla
+     */
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        if ((studentsTable.getSelectedRow()) != -1) {//se selecciono una fila
 
+            try {
+                Connection conexion = new Connection("localhost", "sigedo", "postgres", "postgres", "5432");
+                java.sql.Connection miConexion = conexion.getConnection();
+
+                String procedimientoDeleteStudent = "{call \"public\".\"delete_student\"(?)}";
+
+                model = studentsTable.getModel();//obtengo el modelo
+                int filaSeleccionada = studentsTable.getSelectedRow(); //obtener el indice seleccionado
+                int idStudent = Integer.parseInt(model.getValueAt(filaSeleccionada, 0).toString());//obtener el id del student seleccionado
+
+                CallableStatement cs = miConexion.prepareCall(procedimientoDeleteStudent);
+                cs.setInt(1, idStudent);
+                //TODO actualizacion de la tabla
+               
+                
+                if (cs.execute()) {
+                    JOptionPane.showMessageDialog(null, "Estudiante eliminado correctamente");
+                    
+                } else {
+                    JOptionPane.showMessageDialog(null, "Estudiante no fue eliminado correctamente");
+                }
+                //actualizar tabla students
+                
+                
+                miConexion.close();
+            } catch (ClassNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, "Ocurrio una excepcion" + ex);
+            } catch (SQLException ex2) {
+                JOptionPane.showMessageDialog(null, "Ocurrio una excepcion" + ex2);
+            }
+
+        } else {//no se selecciono ninguna fila
+            DeleteStudent ds = new DeleteStudent();
+            ds.setVisible(true);
+        }
+
+    }//GEN-LAST:event_jButton2ActionPerformed
+    
+    public void llenarTablaStudents() throws SQLException{
+        StudentServices ss = ServicesLocator.getStudentServices();
+        TableModel model = ss.getAllStudents();
+        studentsTable.setModel(model);
+    
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

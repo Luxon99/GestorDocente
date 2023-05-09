@@ -7,6 +7,7 @@ package gestion_docente.visual;
 import java.awt.BorderLayout;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import gestion_docente.services.*;
 
 /**
  *
@@ -14,11 +15,24 @@ import javax.swing.JPanel;
  */
 public class Principal extends javax.swing.JFrame {
 
+    //creo estos objetos para acceder a los servicios de los elementos de la BD
+    private AcademicYearServices yearServices;
+    private EvaluationServices evalServices;
+    private GroupServices groupServices;
+    private StudentServices studentServices;
+    private SubjectServices subjectServices;
+
     /**
      * Creates new form Principal
      */
     public Principal() {
         initComponents();
+
+        yearServices = new AcademicYearServices();
+        evalServices = new EvaluationServices();
+        groupServices = new GroupServices();
+        studentServices = new StudentServices();
+        subjectServices = new SubjectServices();
         StudentsVisual panel = new StudentsVisual();
         mostrarPanel(panel);
     }
@@ -123,40 +137,59 @@ public class Principal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void opcionDatosEstudiantesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opcionDatosEstudiantesActionPerformed
-        // TODO add your handling code here:
-        
-            if (!(panelContenedor.getComponents()[0] instanceof StudentsVisual)) {
-                StudentsVisual panel = new StudentsVisual();
-                mostrarPanel(panel);
-            } else {
-                JOptionPane.showMessageDialog(null, "La opción ya está desplegada");
-            }
-        
+
+        if (!(panelContenedor.getComponents()[0] instanceof StudentsVisual)) {
+            StudentsVisual panel = new StudentsVisual();
+            mostrarPanel(panel);
+        } else {
+            JOptionPane.showMessageDialog(null, "La opción ya está desplegada");
+        }
+
 
     }//GEN-LAST:event_opcionDatosEstudiantesActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
-        AcademicsYearsVisual panel = new AcademicsYearsVisual();
-        mostrarPanel(panel);
+
+        if (!(panelContenedor.getComponents()[0] instanceof AcademicsYearsVisual)) {
+            AcademicsYearsVisual panel = new AcademicsYearsVisual();
+            mostrarPanel(panel);
+        } else {
+            JOptionPane.showMessageDialog(null, "La opción ya está desplegada");
+        }
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         // TODO add your handling code here:
-        EvaluationsVisual panel = new EvaluationsVisual();
-        mostrarPanel(panel);
+        if (!(panelContenedor.getComponents()[0] instanceof EvaluationsVisual)) {
+            EvaluationsVisual panel = new EvaluationsVisual();
+            mostrarPanel(panel);
+        } else {
+            JOptionPane.showMessageDialog(null, "La opción ya está desplegada");
+        }
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         // TODO add your handling code here:
-        GroupsVisual panel = new GroupsVisual();
-        mostrarPanel(panel);
+
+        if (!(panelContenedor.getComponents()[0] instanceof GroupsVisual)) {
+            GroupsVisual panel = new GroupsVisual();
+            mostrarPanel(panel);
+        } else {
+            JOptionPane.showMessageDialog(null, "La opción ya está desplegada");
+        }
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         // TODO add your handling code here:
-        SubjectsVisual panel = new SubjectsVisual();
-        mostrarPanel(panel);
+
+        if (!(panelContenedor.getComponents()[0] instanceof SubjectsVisual)) {
+            SubjectsVisual panel = new SubjectsVisual();
+            mostrarPanel(panel);
+        } else {
+            JOptionPane.showMessageDialog(null, "La opción ya está desplegada");
+        }
+
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     /**
@@ -201,7 +234,7 @@ public class Principal extends javax.swing.JFrame {
      * paneles dentro de la ventana principal
      */
     private void mostrarPanel(JPanel panel) {
-        panel.setSize(panelContenedor.getWidth(),panelContenedor.getHeight());
+        panel.setSize(panelContenedor.getWidth(), panelContenedor.getHeight());
         panel.setLocation(0, 0);
 
         panelContenedor.removeAll();

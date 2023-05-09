@@ -3,10 +3,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package gestion_docente.visual;
-import gestion_docente.utils.Connection;
-import java.sql.SQLException;
-import java.sql.CallableStatement;
+
+import gestion_docente.services.ServicesLocator;
 import javax.swing.JOptionPane;
+import gestion_docente.services.StudentServices;
+
+
 /**
  *
  * @author César
@@ -17,6 +19,7 @@ public class CreateStudent extends javax.swing.JFrame {
      * Creates new form CreateStudent
      */
     public CreateStudent() {
+
         initComponents();
     }
 
@@ -70,11 +73,7 @@ public class CreateStudent extends javax.swing.JFrame {
 
         sexComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Masculino", "Femenino" }));
 
-        groupComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         jLabel6.setText("Academic year");
-
-        academicYearComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jButton1.setText("Crear e Insertar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -164,58 +163,44 @@ public class CreateStudent extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_municipalityTextFieldActionPerformed
     /**
-     Metodo que permite crear e insertar en la Base de datos
-     Al nuevo estudiante 
-     Con los datos pasados a los jTextField correspondientes*/
+     * Metodo que permite crear e insertar en la Base de datos Al nuevo
+     * estudiante Con los datos pasados a los jTextField correspondientes
+     */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         //obtener conexion a la base de datos
-        try{
-            Connection conexion = new Connection("localhost", "sigedo", "postgres", "postgres", "5432");
-            java.sql.Connection miConexion = conexion.getConnection();
-            
-            String procedimientoInsertStudent = "{call \"public\".\"insert_student\"(?,?,?,?,?,?)}";
-            
-            CallableStatement procInsertStudent = miConexion.prepareCall(procedimientoInsertStudent);//se crea el procedimiento CallableStatement el cual permite hacer llamadas a procedimietno almacenados en la Base de datos
-            
-            procInsertStudent.setInt(1, 4);//se le pasa por parametro 1 el id
-            procInsertStudent.setString(2, namesTextField.getText());//se le pasa por parametro 2 el nombre
-            procInsertStudent.setString(3, surnamesTextField.getText());// se le pasa por parametro 3 los apellidos
-            
-            /*Esta parte convierte a booleano el cual es el valor q se va a almacenar en la base de datos
-            Masculino -> true
-            Femenino -> false
-            */
-            String sexo = sexComboBox.getSelectedItem().toString();
-            Boolean isMasculino = false;
-            if (sexo.equals("Masculino")){
+        StudentServices ss = ServicesLocator.getStudentServices();
+        try {
+            //Obtengo los datos que se necesitan para insertar un estudiante
+            String name = namesTextField.getText();//pidiendoselo a cada text field o combo box correspondiente
+            String surname = surnamesTextField.getText();
+            boolean isMasculino = false;
+            if (sexComboBox.getSelectedItem().toString().equals("Masculino")) {
                 isMasculino = true;
             }
-            procInsertStudent.setBoolean(4, isMasculino);//se le pasa el 4 parametro q indica el sexo
-            procInsertStudent.setString(5, municipalityTextField.getText());//se le pasa el 5 parametro q indica el municipio al cual pertenece
-            procInsertStudent.setInt(6, 0);//se le pasa el grupo al cual pertenece
-                      
-            if (procInsertStudent.execute()){
-                JOptionPane.showMessageDialog(null,"Estudiante creado e insertado correctamente");
-            }else{
-                JOptionPane.showMessageDialog(null,"Estudiante no fue creado e insertado correctamente");
+            String municipality = municipalityTextField.getText();
+            //int group = Integer.parseInt(groupComboBox.getSelectedItem().toString());
+            //TODO pasarle por paramttros el grupo elegido en el combo box
+            //ya q siempre va a ser del grupo de id 0
+            boolean insertar = ss.insertStudent(name, surname, isMasculino, municipality, 0);
+
+            if (insertar) {
+                JOptionPane.showMessageDialog(null, "Estudiante creado e insertado correctamente");
+            } else {
+                JOptionPane.showMessageDialog(null, "Estudiante no fue creado e insertado correctamente");
             }
-            
-            
-        }catch(ClassNotFoundException ex1){
-            JOptionPane.showMessageDialog(null, "Ocurrió una excepción Class Not found Exception");
-        }catch(SQLException ex2){
-            JOptionPane.showConfirmDialog(null, "Ocurrió una excepción SQLExcepcion");
-        }
-        catch(Exception ex3){
+
+        } /*catch (SQLException ex2) {
+            JOptionPane.showMessageDialog(null, "Ocurrió una excepción SQLExcepcion");*/
+         catch (Exception ex3) {
             JOptionPane.showMessageDialog(null, ex3);
         }
-        
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
@@ -251,6 +236,11 @@ public class CreateStudent extends javax.swing.JFrame {
                 new CreateStudent().setVisible(true);
             }
         });
+
+    }
+
+    public void cargarGrupos(int year) {
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
