@@ -5,9 +5,11 @@
 package gestion_docente.services;
 
 import java.sql.*;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
 import org.apache.commons.dbutils.DbUtils;
-
+import gestion_docente.utils.models.tableStudents;
+import java.util.ArrayList;
 
 /**
  * @author César Fernandez Garcia 08/05/2023
@@ -16,6 +18,7 @@ public class StudentServices {
 
     private int idMasGrande;
     private ResultSet rs;
+
     public StudentServices() {
 
     }
@@ -42,17 +45,18 @@ public class StudentServices {
 
         return procInsertStudent.execute();
     }
+
     /**
-    *@author Cesar Fernandez Garcia
+     * @author Cesar Fernandez Garcia
      * @return int
      * @throws java.sql.SQLException
-    *
-    */
+     *
+     */
     public int getIdMasGrande() throws SQLException {
         int id = -1;
         String consulta = "SELECT max(id_student) as maximo FROM students";
         java.sql.Connection miConexion = ServicesLocator.getConnection();
-        
+
         Statement procGetIdMAsGrande = miConexion.createStatement();//se crea el procedimiento CallableStatement el cual permite hacer llamadas a procedimietno almacenados en la Base de datos
         rs = procGetIdMAsGrande.executeQuery(consulta);
         if (rs.next()) {//si la funcion se ejecuto correctamente
@@ -62,19 +66,52 @@ public class StudentServices {
         miConexion.close();
         return id;
     }
-    public  getAllStudents() throws SQLException{
-        TableModel retorno;
+
+    public ArrayList<Object[]> getAllStudents() throws SQLException {
+        
         
         StudentServices ss = ServicesLocator.getStudentServices();
         java.sql.Connection miConexion = ServicesLocator.getConnection();
-        String procedimiento = "{?= call public.load_students()}";
-        CallableStatement cs = miConexion.prepareCall(procedimiento);
-        cs.registerOutParameter(1,java.sql.Types.REF_CURSOR);
+
+        String consulta = "select load_students();\n"
+                + "fetch all from \"all_students\";";
+        Statement s = miConexion.createStatement();
+
+        rs = s.executeQuery(consulta);
         
-        if(cs.execute()){
-            System.out.println("Ejecuta la funcion");
+        String id_student;
+        String nombre;
+        String apellidos;
+        String sexo;
+        String municipio;
+        int grupo;
+        
+        ArrayList<Object[]> datos = new ArrayList<>();
+        while (rs.next()) {
+            id_student = rs.getString(1);
+            nombre = rs.getString(2);
+            apellidos = rs.getString(3);
+            if (rs.getBoolean(4)) {
+                sexo = "Masculino";
+            } else {
+                sexo = "Femenino";
+            }
+            municipio = rs.getString(5);
+
+            consulta = "select CONCAT(year,'',num_group) from groups where id_group = " + rs.getString(6)+";";
+            s = miConexion.createStatement();
+
+            rs = s.executeQuery(consulta);
+
+            grupo = Integer.parseInt(rs.getString(1));
+
+            datos.add(new Object[]{id_student, nombre, apellidos, sexo, municipio, grupo});
         }
-        
-        return null;
+
+        rs.close();
+        s.close();
+        miConexion.close();
+
+        return datos;
     }
 }

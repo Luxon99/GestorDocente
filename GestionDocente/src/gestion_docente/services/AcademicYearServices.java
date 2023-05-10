@@ -10,4 +10,11 @@ package gestion_docente.services;
  */
 public class AcademicYearServices {
     
+    
+    public void cargarYear(){
+    
+        
+    
+    }
+    
 }

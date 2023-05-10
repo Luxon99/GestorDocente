@@ -7,7 +7,9 @@ package gestion_docente.visual;
 import gestion_docente.services.ServicesLocator;
 import javax.swing.JOptionPane;
 import gestion_docente.services.StudentServices;
-
+import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -21,6 +23,13 @@ public class CreateStudent extends javax.swing.JFrame {
     public CreateStudent() {
 
         initComponents();
+        try {
+            cargarAnio();
+            cargarGrupos();
+        } catch (SQLException ex) {
+            Logger.getLogger(CreateStudent.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
     /**
@@ -74,6 +83,12 @@ public class CreateStudent extends javax.swing.JFrame {
         sexComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Masculino", "Femenino" }));
 
         jLabel6.setText("Academic year");
+
+        academicYearComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                academicYearComboBoxActionPerformed(evt);
+            }
+        });
 
         jButton1.setText("Crear e Insertar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -191,8 +206,7 @@ public class CreateStudent extends javax.swing.JFrame {
             }
 
         } /*catch (SQLException ex2) {
-            JOptionPane.showMessageDialog(null, "Ocurrió una excepción SQLExcepcion");*/
-         catch (Exception ex3) {
+            JOptionPane.showMessageDialog(null, "Ocurrió una excepción SQLExcepcion");*/ catch (Exception ex3) {
             JOptionPane.showMessageDialog(null, ex3);
         }
 
@@ -202,6 +216,16 @@ public class CreateStudent extends javax.swing.JFrame {
         // TODO add your handling code here:
 
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void academicYearComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_academicYearComboBoxActionPerformed
+       // TODO add your handling code here:
+       try{
+           cargarGrupos();
+       
+       }catch(SQLException ex){
+           
+       }
+    }//GEN-LAST:event_academicYearComboBoxActionPerformed
 
     /**
      * @param args the command line arguments
@@ -239,8 +263,37 @@ public class CreateStudent extends javax.swing.JFrame {
 
     }
 
-    public void cargarGrupos(int year) {
-        
+    public void cargarGrupos() throws SQLException {
+        StudentServices ss = ServicesLocator.getStudentServices();
+        java.sql.Connection conex = ServicesLocator.getConnection();
+        String consulta = "select distinct groups.num_group from groups where year=" + academicYearComboBox.getSelectedItem().toString();
+        Statement stat = conex.createStatement();
+        ResultSet rs = stat.executeQuery(consulta);
+
+        String num_group;
+
+        while (rs.next()) {
+            num_group = rs.getString(1);
+            groupComboBox.addItem(num_group);
+        }
+
+    }
+
+    public void cargarAnio() throws SQLException {
+        StudentServices ss = ServicesLocator.getStudentServices();
+        java.sql.Connection conex = ServicesLocator.getConnection();
+        String consulta = "select year from years;";
+        Statement stat = conex.createStatement();
+        ResultSet rs = stat.executeQuery(consulta);
+
+        String year;
+
+        while (rs.next()) {
+            year = rs.getString(1);
+            academicYearComboBox.addItem(year);
+
+        }
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

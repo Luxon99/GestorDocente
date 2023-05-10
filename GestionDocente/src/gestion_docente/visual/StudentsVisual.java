@@ -11,22 +11,26 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import javax.swing.table.TableModel;
 import gestion_docente.services.StudentServices;
+import java.util.ArrayList;
+import javax.swing.table.AbstractTableModel;
+
 /**
  *
  * @author Hector
  */
 public class StudentsVisual extends javax.swing.JPanel {
-    
+
     /**
      * Creates new form EstudiantesVisual
      */
     private TableModel model;
+
     public StudentsVisual() {
-        
+
         initComponents();
-        try{
-        llenarTablaStudents();
-        }catch(SQLException ex){
+        try {
+            llenarTablaStudents();
+        } catch (SQLException ex) {
             ex.printStackTrace();
         }
     }
@@ -48,20 +52,20 @@ public class StudentsVisual extends javax.swing.JPanel {
 
         studentsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Id_Student", "Name", "Surnames", "Sex", "Municipality", "Group", "List Number"
+                "Id_Student", "Name", "Surnames", "Sex", "Municipality", "Group"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -80,7 +84,6 @@ public class StudentsVisual extends javax.swing.JPanel {
             studentsTable.getColumnModel().getColumn(3).setResizable(false);
             studentsTable.getColumnModel().getColumn(4).setResizable(false);
             studentsTable.getColumnModel().getColumn(5).setResizable(false);
-            studentsTable.getColumnModel().getColumn(6).setResizable(false);
         }
 
         jButton3.setText("Crear");
@@ -161,17 +164,15 @@ public class StudentsVisual extends javax.swing.JPanel {
                 CallableStatement cs = miConexion.prepareCall(procedimientoDeleteStudent);
                 cs.setInt(1, idStudent);
                 //TODO actualizacion de la tabla
-               
-                
+
                 if (cs.execute()) {
                     JOptionPane.showMessageDialog(null, "Estudiante eliminado correctamente");
-                    
+
                 } else {
                     JOptionPane.showMessageDialog(null, "Estudiante no fue eliminado correctamente");
                 }
                 //actualizar tabla students
-                
-                
+
                 miConexion.close();
             } catch (ClassNotFoundException ex) {
                 JOptionPane.showMessageDialog(null, "Ocurrio una excepcion" + ex);
@@ -185,12 +186,24 @@ public class StudentsVisual extends javax.swing.JPanel {
         }
 
     }//GEN-LAST:event_jButton2ActionPerformed
-    
-    public void llenarTablaStudents() throws SQLException{
+
+    public void llenarTablaStudents() throws SQLException {
         StudentServices ss = ServicesLocator.getStudentServices();
-        TableModel model = ss.getAllStudents();
-        studentsTable.setModel(model);
-    
+        ArrayList<Object[]> datos = ss.getAllStudents();        
+
+        // Convierte el ArrayList a Object[][]
+        Object[][] objectArray = new Object[datos.size()][];
+        for (int i = 0; i < datos.size(); i++) {
+            objectArray[i] = datos.get(i);
+        }
+
+        studentsTable.setModel(new javax.swing.table.DefaultTableModel(
+                objectArray,
+                new String[]{
+                    "Longitud del sépalo", "Ancho del sépalo", "Longitud del pétalo", "Ancho del pétalo"
+                }
+        ));
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
