@@ -4,6 +4,7 @@
  */
 package gestion_docente.services;
 
+import java.sql.*;
 import java.util.ArrayList;
 
 /**
@@ -22,10 +23,25 @@ public class GroupServices {
         ArrayList<Integer> listadoGrupos = new ArrayList<>();
         
         GroupServices gs = ServicesLocator.getGroupServices();
-        String procedimiento = "{ ?= call \"public\".\"get_groups_of_year\"(?)}";        
+        String procedimiento = "{ ?= call get_groups_of_year(?)}";        
         
         
         return listadoGrupos;
+    }
+    public String getGroup(int id_group) throws SQLException{
+        String grupo="";
+        Connection conexion = ServicesLocator.getConnection();
+        String consulta = "SELECT CONCAT(year,'',num_group) as grupo FROM groups WHERE groups.id_group="+id_group;
+        ResultSet rs;
+        try (Statement ss = conexion.createStatement()) {
+            rs = ss.executeQuery(consulta);
+            if (rs.next()) {//si la funcion se ejecuto correctamente
+                grupo = rs.getString("grupo");//obtengo el retorno de la funcion
+            }
+        }
+        rs.close();
+        
+        return grupo;
     }
     
 }

@@ -5,6 +5,7 @@
 package gestion_docente.visual;
 
 import gestion_docente.dto.StudentDTO;
+import gestion_docente.services.GroupServices;
 import gestion_docente.services.ServicesLocator;
 import gestion_docente.utils.Connection;
 import java.sql.CallableStatement;
@@ -12,10 +13,10 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import javax.swing.table.TableModel;
 import gestion_docente.services.StudentServices;
-import gestion_docente.utils.models.TableModelStudents;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -196,33 +197,32 @@ public class StudentsVisual extends javax.swing.JPanel {
         ArrayList<StudentDTO> datos = ss.getAllStudents();
 
         // Convierte el ArrayList a Object[][]
-//        Object[][] objectArray = new Object[datos.size()][];
-//
-//        for (int i = 0; i < datos.size(); i++) {
-//            for (int j = 1; j < 6; j++) {
-//                if( j == 1 ){
-//                    objectArray[i][j]=datos.get(i).getName();
-//                }
-//                if( j == 2 ){
-//                    objectArray[i][j]=datos.get(i).getSurnames();
-//                }
-//                if( j == 3 ){
-//                    objectArray[i][j]=datos.get(i).isSex();
-//                }
-//                if( j == 4 ){
-//                    objectArray[i][j]=datos.get(i).getMunicipality();
-//                }
-//                if( j == 5 ){
-//                    objectArray[i][j]=datos.get(i).getId_group();
-//                }
-//                
-//            }
-//
-//        }
+        Object[][] objectArray = new Object[datos.size()][5];
 
-        
-        TableModelStudents mod = new TableModelStudents(datos);
-        studentsTable.setModel(mod);
+        for (int i = 0; i < datos.size(); i++) {
+            for (int j = 0; j < 5; j++) {
+                if( j == 0 ){
+                    objectArray[i][j]=datos.get(i).getName();
+                }
+                if( j == 1 ){
+                    objectArray[i][j]=datos.get(i).getSurnames();
+                }
+                if( j == 2 ){
+                    objectArray[i][j]=datos.get(i).isSex();
+                }
+                if( j == 3 ){
+                    objectArray[i][j]=datos.get(i).getMunicipality();
+                }
+                if( j == 4 ){
+                    GroupServices gs = ServicesLocator.getGroupServices();
+                    objectArray[i][j]=gs.getGroup(datos.get(i).getId_group());
+                }
+                
+            }
+
+        }
+        studentsTable.setModel(new DefaultTableModel(objectArray,
+                new String[]{"Nombre","Apellidos","Sexo","Municipio","Grupo"}));
 
     }
 

@@ -7,8 +7,6 @@ package gestion_docente.services;
 import gestion_docente.dto.StudentDTO;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * @author César Fernandez Garcia 08/05/2023

@@ -32,7 +32,7 @@ public class GroupsVisual extends javax.swing.JPanel {
         jScrollPane2 = new javax.swing.JScrollPane();
         groupsTable = new javax.swing.JTable();
 
-        jButton3.setText("Crear");
+        jButton3.setText("Insertar");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -50,17 +50,17 @@ public class GroupsVisual extends javax.swing.JPanel {
 
         groupsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
             },
             new String [] {
-                "Id_group", "Year", "Number group"
+                "Year", "Number group"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, true, false
+                false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
