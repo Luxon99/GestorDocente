@@ -208,7 +208,11 @@ public class StudentsVisual extends javax.swing.JPanel {
                     objectArray[i][j]=datos.get(i).getSurnames();
                 }
                 if( j == 2 ){
-                    objectArray[i][j]=datos.get(i).isSex();
+                    String sexo="Femenino";
+                    if ( datos.get(i).isSex() ){
+                        sexo ="Masculino";
+                    }
+                    objectArray[i][j]=sexo;
                 }
                 if( j == 3 ){
                     objectArray[i][j]=datos.get(i).getMunicipality();
