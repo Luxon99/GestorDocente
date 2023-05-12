@@ -32,7 +32,7 @@ public class EvaluationsVisual extends javax.swing.JPanel {
         jScrollPane2 = new javax.swing.JScrollPane();
         evaluationsTable = new javax.swing.JTable();
 
-        jButton3.setText("Crear");
+        jButton3.setText("Insertar");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -50,17 +50,17 @@ public class EvaluationsVisual extends javax.swing.JPanel {
 
         evaluationsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Id_evaluation", "Id_student", "Id_subject", "Evaluation"
+                "Student", "Subject", "Evaluation"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -72,7 +72,6 @@ public class EvaluationsVisual extends javax.swing.JPanel {
             evaluationsTable.getColumnModel().getColumn(0).setResizable(false);
             evaluationsTable.getColumnModel().getColumn(1).setResizable(false);
             evaluationsTable.getColumnModel().getColumn(2).setResizable(false);
-            evaluationsTable.getColumnModel().getColumn(3).setResizable(false);
         }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);

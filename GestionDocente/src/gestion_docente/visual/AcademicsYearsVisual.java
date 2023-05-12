@@ -66,7 +66,7 @@ public class AcademicsYearsVisual extends javax.swing.JPanel {
 
         jButton2.setText("Eliminar");
 
-        jButton3.setText("Crear");
+        jButton3.setText("Insertar");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);

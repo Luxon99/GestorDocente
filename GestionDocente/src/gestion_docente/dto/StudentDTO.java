@@ -16,7 +16,11 @@ public class StudentDTO {
     private String surnames;
     private boolean sex;
     private String municipality;
-
+    private int id_group;
+    
+    
+    
+    
     public int getId_student() {
         return id_student;
     }
@@ -57,12 +61,21 @@ public class StudentDTO {
         this.municipality = municipality;
     }
 
-    public StudentDTO(int id_student, String name, String surnames, boolean sex, String municipality) {
+    public StudentDTO(int id_student, String name, String surnames, boolean sex, String municipality, int id_group) {
         this.id_student = id_student;
         this.name = name;
         this.surnames = surnames;
         this.sex = sex;
         this.municipality = municipality;
+        this.id_group = id_group;
+    }
+
+    public int getId_group() {
+        return id_group;
+    }
+
+    public void setId_group(int id_group) {
+        this.id_group = id_group;
     }
     
     

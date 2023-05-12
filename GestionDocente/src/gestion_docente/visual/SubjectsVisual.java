@@ -32,7 +32,7 @@ public class SubjectsVisual extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         subjectsTable = new javax.swing.JTable();
 
-        jButton3.setText("Crear");
+        jButton3.setText("Insertar");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -50,17 +50,17 @@ public class SubjectsVisual extends javax.swing.JPanel {
 
         subjectsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Id_subject", "Name", "Hours", "Year"
+                "Name", "Hours", "Year"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -72,7 +72,6 @@ public class SubjectsVisual extends javax.swing.JPanel {
             subjectsTable.getColumnModel().getColumn(0).setResizable(false);
             subjectsTable.getColumnModel().getColumn(1).setResizable(false);
             subjectsTable.getColumnModel().getColumn(2).setResizable(false);
-            subjectsTable.getColumnModel().getColumn(3).setResizable(false);
         }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);

@@ -4,6 +4,7 @@
  */
 package gestion_docente.visual;
 
+import gestion_docente.dto.StudentDTO;
 import gestion_docente.services.ServicesLocator;
 import gestion_docente.utils.Connection;
 import java.sql.CallableStatement;
@@ -11,8 +12,10 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import javax.swing.table.TableModel;
 import gestion_docente.services.StudentServices;
+import gestion_docente.utils.models.TableModelStudents;
 import java.util.ArrayList;
-import javax.swing.table.AbstractTableModel;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -32,6 +35,8 @@ public class StudentsVisual extends javax.swing.JPanel {
             llenarTablaStudents();
         } catch (SQLException ex) {
             ex.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(StudentsVisual.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -52,20 +57,20 @@ public class StudentsVisual extends javax.swing.JPanel {
 
         studentsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Id_Student", "Name", "Surnames", "Sex", "Municipality", "Group"
+                "Name", "Surnames", "Sex", "Municipality", "Group"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -83,10 +88,9 @@ public class StudentsVisual extends javax.swing.JPanel {
             studentsTable.getColumnModel().getColumn(2).setResizable(false);
             studentsTable.getColumnModel().getColumn(3).setResizable(false);
             studentsTable.getColumnModel().getColumn(4).setResizable(false);
-            studentsTable.getColumnModel().getColumn(5).setResizable(false);
         }
 
-        jButton3.setText("Crear");
+        jButton3.setText("Insertar");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -187,22 +191,38 @@ public class StudentsVisual extends javax.swing.JPanel {
 
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    public void llenarTablaStudents() throws SQLException {
+    public void llenarTablaStudents() throws SQLException, ClassNotFoundException {
         StudentServices ss = ServicesLocator.getStudentServices();
-        ArrayList<Object[]> datos = ss.getAllStudents();        
+        ArrayList<StudentDTO> datos = ss.getAllStudents();
 
         // Convierte el ArrayList a Object[][]
-        Object[][] objectArray = new Object[datos.size()][];
-        for (int i = 0; i < datos.size(); i++) {
-            objectArray[i] = datos.get(i);
-        }
+//        Object[][] objectArray = new Object[datos.size()][];
+//
+//        for (int i = 0; i < datos.size(); i++) {
+//            for (int j = 1; j < 6; j++) {
+//                if( j == 1 ){
+//                    objectArray[i][j]=datos.get(i).getName();
+//                }
+//                if( j == 2 ){
+//                    objectArray[i][j]=datos.get(i).getSurnames();
+//                }
+//                if( j == 3 ){
+//                    objectArray[i][j]=datos.get(i).isSex();
+//                }
+//                if( j == 4 ){
+//                    objectArray[i][j]=datos.get(i).getMunicipality();
+//                }
+//                if( j == 5 ){
+//                    objectArray[i][j]=datos.get(i).getId_group();
+//                }
+//                
+//            }
+//
+//        }
 
-        studentsTable.setModel(new javax.swing.table.DefaultTableModel(
-                objectArray,
-                new String[]{
-                    "Longitud del sépalo", "Ancho del sépalo", "Longitud del pétalo", "Ancho del pétalo"
-                }
-        ));
+        
+        TableModelStudents mod = new TableModelStudents(datos);
+        studentsTable.setModel(mod);
 
     }
 
