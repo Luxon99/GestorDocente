@@ -4,6 +4,17 @@
  */
 package gestion_docente.visual;
 
+import gestion_docente.dto.GroupDTO;
+import gestion_docente.dto.StudentDTO;
+import gestion_docente.services.GroupServices;
+import gestion_docente.services.ServicesLocator;
+import gestion_docente.services.StudentServices;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author César
@@ -15,6 +26,13 @@ public class GroupsVisual extends javax.swing.JPanel {
      */
     public GroupsVisual() {
         initComponents();
+        try {
+            llenarGroupsTable();
+        } catch (SQLException ex) {
+            Logger.getLogger(GroupsVisual.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(GroupsVisual.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -50,10 +68,7 @@ public class GroupsVisual extends javax.swing.JPanel {
 
         groupsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+
             },
             new String [] {
                 "Year", "Number group"
@@ -67,11 +82,11 @@ public class GroupsVisual extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        groupsTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(groupsTable);
         if (groupsTable.getColumnModel().getColumnCount() > 0) {
             groupsTable.getColumnModel().getColumn(0).setResizable(false);
             groupsTable.getColumnModel().getColumn(1).setResizable(false);
-            groupsTable.getColumnModel().getColumn(2).setResizable(false);
         }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -111,7 +126,34 @@ public class GroupsVisual extends javax.swing.JPanel {
         crearGroup.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    public void llenarGroupsTable() throws SQLException, ClassNotFoundException {
 
+        GroupServices gs = ServicesLocator.getGroupServices();
+        ArrayList<GroupDTO> datos = gs.getAllGroups();
+
+        groupsTable.setModel(new DefaultTableModel(groupsToMatriz(datos),
+                new String[]{"Año", "Grupo"}));
+
+    }
+
+    public Object[][] groupsToMatriz(ArrayList<GroupDTO> datos) {
+        // Convierte el ArrayList a Object[][]
+        Object[][] objectArray = new Object[datos.size()][2];
+
+        for (int i = 0; i < datos.size(); i++) {
+            for (int j = 0; j < 2; j++) {
+                if (j == 0) {
+                    objectArray[i][j] = datos.get(i).getYear();
+                }
+                if (j == 1) {
+                    objectArray[i][j] = datos.get(i).getNum_group();
+                }
+            }
+
+        }
+        return objectArray;
+
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable groupsTable;
     private javax.swing.JButton jButton1;

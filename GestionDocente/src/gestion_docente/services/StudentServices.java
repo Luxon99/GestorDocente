@@ -21,7 +21,7 @@ public class StudentServices {
     }
 
     public boolean insertStudent(String name, String surname, boolean sexo, String municipality, int group) throws SQLException {
-        String procedimientoInsertStudent = "{call \"public\".\"insert_student\"(?,?,?,?,?)}";
+        String procedimientoInsertStudent = "{call insert_student(?,?,?,?,?)}";
         java.sql.Connection miConexion = ServicesLocator.getConnection();
         CallableStatement procInsertStudent = miConexion.prepareCall(procedimientoInsertStudent);//se crea el procedimiento CallableStatement el cual permite hacer llamadas a procedimietno almacenados en la Base de datos
 
@@ -33,6 +33,19 @@ public class StudentServices {
 
         return procInsertStudent.execute();
     }
+    //public boolean updateStudent(int id_student,String name, String surname, boolean sexo, String municipality, int group){
+//        String procedimientoInsertStudent = "{call update_student(?,?,?,?,?)}";
+//        java.sql.Connection miConexion = ServicesLocator.getConnection();
+//        CallableStatement procInsertStudent = miConexion.prepareCall(procedimientoInsertStudent);//se crea el procedimiento CallableStatement el cual permite hacer llamadas a procedimietno almacenados en la Base de datos
+//
+//        procInsertStudent.setString(1, name);//se le pasa por parametro 2 el nombre
+//        procInsertStudent.setString(2, surname);// se le pasa por parametro 3 los apellidos
+//        procInsertStudent.setBoolean(3, sexo);//se le pasa el 4 parametro q indica el sexo
+//        procInsertStudent.setString(4, municipality);//se le pasa el 5 parametro q indica el municipio al cual pertenece
+//        procInsertStudent.setInt(5, group);//se le pasa el grupo al cual pertenece
+//
+//        return procInsertStudent.execute();
+   // }
 
     /**
      * @author Cesar Fernandez Garcia
@@ -75,4 +88,15 @@ public class StudentServices {
         return listOfStudents;
     }
 
+    public boolean deleteStudent(int id) throws SQLException{
+        String consulta = "{call delete_student(?)}";
+        Connection conexion = ServicesLocator.getConnection();
+        CallableStatement cs = conexion.prepareCall(consulta);
+        
+        cs.setInt(1, id);//se le pasa por parametro el id del student
+        
+
+        return cs.execute();
+    
+    }
 }

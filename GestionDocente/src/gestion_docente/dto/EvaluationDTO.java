@@ -9,5 +9,5 @@ package gestion_docente.dto;
  * @author César
  */
 public class EvaluationDTO {
-    
+    private 
 }

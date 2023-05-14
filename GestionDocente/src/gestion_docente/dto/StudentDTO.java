@@ -17,6 +17,11 @@ public class StudentDTO {
     private boolean sex;
     private String municipality;
     private int id_group;
+
+    @Override
+    public String toString() {
+        return name + " " + surnames + "de " + municipality;
+    }
     
     
     
