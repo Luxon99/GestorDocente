@@ -12,7 +12,7 @@ import java.util.ArrayList;
  *
  * @author César
  */
-public class GroupServices {
+public class GroupServices extends ServicesEstandar {
 
     /**
      * @author Cesar Fernandez Garcia 8/05/2023 15:09
@@ -40,18 +40,6 @@ public class GroupServices {
 
     }
 
-    public boolean deleteGroup(int id) throws SQLException {
-
-        String consulta = "{call delete_group(?)}";
-        Connection conexion = ServicesLocator.getConnection();
-        CallableStatement cs = conexion.prepareCall(consulta);
-
-        cs.setInt(1, id);//se le pasa por parametro el id del grupo
-
-        return cs.execute();
-
-    }
-
     public String getGroup(int id_group) throws SQLException {
         String grupo = "";
         Connection conexion = ServicesLocator.getConnection();
@@ -67,6 +55,23 @@ public class GroupServices {
 
         return grupo;
     }
+    public int getIdGroup(int year,int num_group) throws SQLException {
+        int grupo=-1;
+        Connection conexion = ServicesLocator.getConnection();
+        String consulta = "SELECT id_group as identificador FROM groups WHERE groups.year="+year+"AND groups.num_group="+num_group;
+        ResultSet rs;
+        try ( Statement ss = conexion.createStatement()) {
+            rs = ss.executeQuery(consulta);
+            if (rs.next()) {//si la funcion se ejecuto correctamente
+                grupo = rs.getInt("identificador");//obtengo el retorno de la funcion
+            }
+        }
+        rs.close();
+
+        return grupo;
+    }
+    
+    
 
     public ArrayList<GroupDTO> getAllGroups() throws SQLException, ClassNotFoundException {
 

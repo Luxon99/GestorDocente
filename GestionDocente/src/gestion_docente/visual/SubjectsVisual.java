@@ -4,6 +4,15 @@
  */
 package gestion_docente.visual;
 
+import gestion_docente.dto.SubjectDTO;
+import gestion_docente.services.ServicesLocator;
+import gestion_docente.services.StudentServices;
+import gestion_docente.services.SubjectServices;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author César
@@ -40,6 +49,11 @@ public class SubjectsVisual extends javax.swing.JPanel {
         });
 
         jButton2.setText("Eliminar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton1.setText("Modificar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -111,6 +125,35 @@ public class SubjectsVisual extends javax.swing.JPanel {
         createSubject.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        if ((subjectsTable.getSelectedRow()) != -1) {//se selecciono una fila
+            SubjectServices gs = ServicesLocator.getSubjectServices();
+
+            try {
+                //obtengo todos los estudiantes
+                ArrayList<SubjectDTO> asignaturas = gs.getAllSubjects();
+                SubjectDTO asignaturaSeleccionado = asignaturas.get(subjectsTable.getSelectedRow());
+                int id = asignaturaSeleccionado.getId();
+                if (JOptionPane.showConfirmDialog(null, "Desea eliminar la " + asignaturaSeleccionado) == 0) {
+                    if (gs.delete_object(id, StudentServices.DELETE_SUBJECT)) {
+                        JOptionPane.showMessageDialog(null, "Asignatura eliminado correctamente");
+
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Asignatura no fue eliminado correctamente");
+                    }
+                }
+                //actualizar tabla subjects
+                llenarSubjectsTable();
+            } catch (ClassNotFoundException | SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Ocurrió una excepción" + ex);
+            }
+
+        } else {//no se selecciono ninguna fila
+
+            JOptionPane.showMessageDialog(null, "Seleccione una asignatura antes de intentar borrarlo");
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -119,4 +162,38 @@ public class SubjectsVisual extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable subjectsTable;
     // End of variables declaration//GEN-END:variables
+
+    private void llenarSubjectsTable() throws SQLException, ClassNotFoundException {
+
+        SubjectServices ss = ServicesLocator.getSubjectServices();
+
+        ArrayList<SubjectDTO> datos = ss.getAllSubjects();
+
+        subjectsTable.setModel(new DefaultTableModel(subjectsToMatriz(datos),
+                new String[]{"Nombre", "Horas", "Año académico"}));
+
+    }
+
+    private Object[][] subjectsToMatriz(ArrayList<SubjectDTO> datos) {
+
+        // Convierte el ArrayList a Object[][]
+        Object[][] objectArray = new Object[datos.size()][3];
+
+        for (int i = 0; i < datos.size(); i++) {
+            for (int j = 0; j < 3; j++) {
+                if (j == 0) {
+                    objectArray[i][j] = datos.get(i).getName_subject();
+                }
+                if (j == 1) {
+                    objectArray[i][j] = datos.get(i).getHours();
+                }
+                if (j == 2) {
+                    objectArray[i][j] = datos.get(i).getYear();
+                }
+            }
+
+        }
+        return objectArray;
+
+    }
 }

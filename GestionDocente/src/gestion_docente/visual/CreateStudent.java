@@ -4,6 +4,8 @@
  */
 package gestion_docente.visual;
 
+import gestion_docente.dto.StudentDTO;
+import gestion_docente.services.GroupServices;
 import gestion_docente.services.ServicesLocator;
 import javax.swing.JOptionPane;
 import gestion_docente.services.StudentServices;
@@ -194,10 +196,16 @@ public class CreateStudent extends javax.swing.JFrame {
                 isMasculino = true;
             }
             String municipality = municipalityTextField.getText();
-            //int group = Integer.parseInt(groupComboBox.getSelectedItem().toString());
-            //TODO pasarle por paramttros el grupo elegido en el combo box
-            //ya q siempre va a ser del grupo de id 0
-            boolean insertar = ss.insertStudent(name, surname, isMasculino, municipality, 0);
+
+
+            /*TODO hay que hacer un metodo que devuelva el id del grupo correspondiente al señalado por el usuario en la interfaz*/
+            GroupServices gs = ServicesLocator.getGroupServices();
+            int year = Integer.parseInt(academicYearComboBox.getSelectedItem().toString());
+            int num_group = Integer.parseInt(groupComboBox.getSelectedItem().toString());
+            int id_group = gs.getIdGroup(year,num_group);//obtengo el id del grupo para pasarlo por parametros
+            
+            //se le pasa cero al id porque en un final el id es serial plq es insertado autmaticamente
+            boolean insertar = ss.insert_object(StudentServices.INSERT_STUDENT,StudentServices.PARAM_STUDENT, new StudentDTO(0,name,surname,isMasculino,municipality,id_group));
 
             if (insertar) {
                 JOptionPane.showMessageDialog(null, "Estudiante creado e insertado correctamente");

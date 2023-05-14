@@ -9,9 +9,8 @@ package gestion_docente.dto;
  * @author César Fernández García Esta clase permite la manipulación de la tabla
  * student
  */
-public class StudentDTO {
+public class StudentDTO extends EstandarDTO {
 
-    private int id_student;
     private String name;
     private String surnames;
     private boolean sex;
@@ -22,18 +21,19 @@ public class StudentDTO {
     public String toString() {
         return name + " " + surnames + "de " + municipality;
     }
-    
-    
-    
-    
-    public int getId_student() {
-        return id_student;
-    }
 
-    public void setId_student(int id_student) {
-        this.id_student = id_student;
+    public StudentDTO(int id,String name, String surnames, boolean sex, String municipality, int id_group) {
+        super(id);
+        this.name = name;
+        this.surnames = surnames;
+        this.sex = sex;
+        this.municipality = municipality;
+        this.id_group = id_group;
     }
-
+    
+    
+    
+    
     public String getName() {
         return name;
     }
@@ -66,14 +66,6 @@ public class StudentDTO {
         this.municipality = municipality;
     }
 
-    public StudentDTO(int id_student, String name, String surnames, boolean sex, String municipality, int id_group) {
-        this.id_student = id_student;
-        this.name = name;
-        this.surnames = surnames;
-        this.sex = sex;
-        this.municipality = municipality;
-        this.id_group = id_group;
-    }
 
     public int getId_group() {
         return id_group;

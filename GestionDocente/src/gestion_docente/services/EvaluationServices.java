@@ -16,11 +16,9 @@ import java.util.ArrayList;
  *
  * @author César
  */
-public class EvaluationServices {
-    
-    
-    
-    public boolean insertEvaluation(int id_student,int id_subject,int evaluation) throws SQLException {
+public class EvaluationServices extends ServicesEstandar{
+
+    public boolean insertEvaluation(int id_student, int id_subject, int evaluation) throws SQLException {
         String procedimientoInsertEvaluation = "{call insert_evaluation(?,?,?)}";
         java.sql.Connection miConexion = ServicesLocator.getConnection();
         CallableStatement procInsertEvaluation = miConexion.prepareCall(procedimientoInsertEvaluation);//se crea el procedimiento CallableStatement el cual permite hacer llamadas a procedimietno almacenados en la Base de datos
@@ -33,20 +31,9 @@ public class EvaluationServices {
 
     }
 
-    public boolean deleteEvaluation(int id) throws SQLException {
-
-        String consulta = "{call delete_evaluation(?)}";
-        Connection conexion = ServicesLocator.getConnection();
-        CallableStatement cs = conexion.prepareCall(consulta);
-
-        cs.setInt(1, id);//se le pasa por parametro el id del grupo
-
-        return cs.execute();
-
-    }
     public ArrayList<EvaluationDTO> getAllEvaluations() throws SQLException, ClassNotFoundException {
 
-        ArrayList<EvaluationDTO> listOfGroups = new ArrayList<>();
+        ArrayList<EvaluationDTO> listOfEvaluations = new ArrayList<>();
         String function = "{?= call load_evaluations()}";
         java.sql.Connection connection = ServicesLocator.getConnection();
         connection.setAutoCommit(false);
@@ -55,12 +42,12 @@ public class EvaluationServices {
             preparedFunction.execute();
             try ( ResultSet resultSet = (ResultSet) preparedFunction.getObject(1)) {
                 while (resultSet.next()) {
-                    listOfGroups.add(new EvaluationDTO(resultSet.getInt(1), resultSet.getInt(2), resultSet.getInt(3)));
+                    listOfEvaluations.add(new EvaluationDTO(resultSet.getInt(1), resultSet.getInt(2), resultSet.getInt(3), resultSet.getInt(4)));
                 }
             }
         }
 
-        return listOfGroups;
+        return listOfEvaluations;
     }
 
 }

@@ -164,9 +164,9 @@ public class StudentsVisual extends javax.swing.JPanel {
                 //obtengo todos los estudiantes
                 ArrayList<StudentDTO> estudiantes = ss.getAllStudents();
                 StudentDTO estudianteSeleccionado = estudiantes.get(studentsTable.getSelectedRow());
-                int id = estudianteSeleccionado.getId_student();
+                int id = estudianteSeleccionado.getId();
                 if (JOptionPane.showConfirmDialog(null, "Desea eliminar al estudiante " + estudianteSeleccionado) == 0) {
-                    if (ss.deleteStudent(id)) {
+                    if (ss.delete_object(id,StudentServices.DELETE_STUDENT)) {
                         JOptionPane.showMessageDialog(null, "Estudiante eliminado correctamente");
 
                     } else {

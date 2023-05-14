@@ -11,14 +11,10 @@ import java.util.ArrayList;
 /**
  * @author César Fernandez Garcia 08/05/2023
  */
-public class StudentServices {
+public class StudentServices extends ServicesEstandar{
 
     private int idMasGrande;
     private ResultSet rs;
-
-    public StudentServices() {
-
-    }
 
     public boolean insertStudent(String name, String surname, boolean sexo, String municipality, int group) throws SQLException {
         String procedimientoInsertStudent = "{call insert_student(?,?,?,?,?)}";
@@ -86,17 +82,5 @@ public class StudentServices {
         }
 
         return listOfStudents;
-    }
-
-    public boolean deleteStudent(int id) throws SQLException{
-        String consulta = "{call delete_student(?)}";
-        Connection conexion = ServicesLocator.getConnection();
-        CallableStatement cs = conexion.prepareCall(consulta);
-        
-        cs.setInt(1, id);//se le pasa por parametro el id del student
-        
-
-        return cs.execute();
-    
     }
 }

@@ -8,20 +8,19 @@ package gestion_docente.dto;
  *
  * @author César Fernández García
  */
-public class SubjectDTO {
-    private int id_subject;
+public class SubjectDTO extends EstandarDTO{
     private String name_subject;
     private int hours;
     private int year;
 
-    public int getId_subject() {
-        return id_subject;
+    public SubjectDTO(int id_subject, String name_subject, int hours, int year) {
+        super(id_subject);
+        this.name_subject = name_subject;
+        this.hours = hours;
+        this.year = year;
     }
 
-    public void setId_subject(int id_subject) {
-        this.id_subject = id_subject;
-    }
-
+    
     public String getName_subject() {
         return name_subject;
     }
@@ -48,7 +47,7 @@ public class SubjectDTO {
 
     @Override
     public String toString() {
-        return  id_subject + " " + name_subject + " de " + hours + " horas del año " + year;
+        return  super.getId() + " " + name_subject + " de " + hours + " horas del año " + year;
     }
     
     

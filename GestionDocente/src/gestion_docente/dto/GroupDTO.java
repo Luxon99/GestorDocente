@@ -8,18 +8,10 @@ package gestion_docente.dto;
  *
  * @author César Fernández García
  */
-public class GroupDTO {
-    private int id_group;
+public class GroupDTO extends EstandarDTO{
     private int year;
     private int num_group;
 
-    public int getId_group() {
-        return id_group;
-    }
-
-    public void setId_group(int id_group) {
-        this.id_group = id_group;
-    }
 
     public int getYear() {
         return year;
@@ -42,11 +34,13 @@ public class GroupDTO {
         return year +""+ num_group ;
     }
 
-    public GroupDTO(int id_group, int year, int num_group) {
-        this.id_group = id_group;
+    public GroupDTO( int id,int year, int num_group) {
+        super(id);
         this.year = year;
         this.num_group = num_group;
     }
+
     
+
     
 }

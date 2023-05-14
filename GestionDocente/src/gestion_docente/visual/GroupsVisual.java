@@ -5,7 +5,6 @@
 package gestion_docente.visual;
 
 import gestion_docente.dto.GroupDTO;
-import gestion_docente.dto.StudentDTO;
 import gestion_docente.services.GroupServices;
 import gestion_docente.services.ServicesLocator;
 import gestion_docente.services.StudentServices;
@@ -13,6 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -58,6 +58,11 @@ public class GroupsVisual extends javax.swing.JPanel {
         });
 
         jButton2.setText("Eliminar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton1.setText("Modificar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -125,6 +130,37 @@ public class GroupsVisual extends javax.swing.JPanel {
         CreateGroup crearGroup = new CreateGroup();
         crearGroup.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        if ((groupsTable.getSelectedRow()) != -1) {//se selecciono una fila
+            GroupServices gs = ServicesLocator.getGroupServices();
+
+            try {
+                //obtengo todos los estudiantes
+                ArrayList<GroupDTO> grupos = gs.getAllGroups();
+                GroupDTO grupoSeleccionado = grupos.get(groupsTable.getSelectedRow());
+                int id = grupoSeleccionado.getId();
+                if (JOptionPane.showConfirmDialog(null, "Desea eliminar el grupo " + grupoSeleccionado) == 0) {
+                    if (gs.delete_object(id, StudentServices.DELETE_GROUP)) {
+                        JOptionPane.showMessageDialog(null, "Grupo eliminado correctamente");
+
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Grupo no fue eliminado correctamente");
+                    }
+                }
+                //actualizar tabla students
+                llenarGroupsTable();
+            } catch (ClassNotFoundException | SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Ocurrió una excepción" + ex);
+            }
+
+        } else {//no se selecciono ninguna fila
+
+            JOptionPane.showMessageDialog(null, "Seleccione un grupo antes de intentar borrarlo");
+        }
+
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     public void llenarGroupsTable() throws SQLException, ClassNotFoundException {
 

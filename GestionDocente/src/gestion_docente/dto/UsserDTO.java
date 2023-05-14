@@ -8,6 +8,32 @@ package gestion_docente.dto;
  *
  * @author César
  */
-public class UsserDTO {
+public class UsserDTO extends EstandarDTO{
+    private String usser_name;
+    private String password;
+
+    public UsserDTO(int id,String usser_name, String password) {
+        super(id);
+        this.usser_name = usser_name;
+        this.password = password;
+    }
+
+    
+
+    public String getUsser_name() {
+        return usser_name;
+    }
+
+    public void setUsser_name(String usser_name) {
+        this.usser_name = usser_name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
     
 }
