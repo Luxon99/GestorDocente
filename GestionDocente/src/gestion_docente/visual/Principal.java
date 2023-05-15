@@ -46,9 +46,11 @@ public class Principal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jMenuItem12 = new javax.swing.JMenuItem();
         panelContenedor = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
+        jMenuItem16 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         opcionDatosEstudiantes = new javax.swing.JMenuItem();
@@ -57,9 +59,21 @@ public class Principal extends javax.swing.JFrame {
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
+        jMenuItem6 = new javax.swing.JMenuItem();
+        jMenuItem7 = new javax.swing.JMenuItem();
+        jMenuItem8 = new javax.swing.JMenuItem();
+        jMenuItem9 = new javax.swing.JMenuItem();
+        jMenuItem10 = new javax.swing.JMenuItem();
+        jMenuItem11 = new javax.swing.JMenuItem();
+        jMenuItem13 = new javax.swing.JMenuItem();
+        jMenuItem14 = new javax.swing.JMenuItem();
+        jMenuItem15 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
 
+        jMenuItem12.setText("jMenuItem12");
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Principal");
 
         javax.swing.GroupLayout panelContenedorLayout = new javax.swing.GroupLayout(panelContenedor);
         panelContenedor.setLayout(panelContenedorLayout);
@@ -73,6 +87,9 @@ public class Principal extends javax.swing.JFrame {
         );
 
         jMenu3.setText("Archivo");
+
+        jMenuItem16.setText("Cambiar de usuario");
+        jMenu3.add(jMenuItem16);
 
         jMenuItem5.setText("Salir");
         jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
@@ -129,6 +146,39 @@ public class Principal extends javax.swing.JFrame {
         jMenuBar1.add(jMenu1);
 
         jMenu4.setText("Reportes");
+
+        jMenuItem6.setText("Listado de alumnos por grupo");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem6);
+
+        jMenuItem7.setText("Listado de las asignaturas que se imparten en cada año ");
+        jMenu4.add(jMenuItem7);
+
+        jMenuItem8.setText("Listado de las evaluaciones por grupo en cada asignatura ");
+        jMenu4.add(jMenuItem8);
+
+        jMenuItem9.setText("Listado de los promedios finales obtenidos de los alumnos");
+        jMenu4.add(jMenuItem9);
+
+        jMenuItem10.setText("Escalafón ");
+        jMenu4.add(jMenuItem10);
+
+        jMenuItem11.setText("Certificación de notas de cada estudiante ");
+        jMenu4.add(jMenuItem11);
+
+        jMenuItem13.setText("Listado de los alumnos desaprobados por grupo para un rango de fecha");
+        jMenu4.add(jMenuItem13);
+
+        jMenuItem14.setText("Listado, por grupo o por año, de los alumnos que causan baja en un curso ");
+        jMenu4.add(jMenuItem14);
+
+        jMenuItem15.setText("Listado de los repitentes por año ");
+        jMenu4.add(jMenuItem15);
+
         jMenuBar1.add(jMenu4);
 
         jMenu2.setText("Ayuda");
@@ -211,6 +261,12 @@ public class Principal extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        // TODO add your handling code here:
+        
+        
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -269,10 +325,21 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem10;
+    private javax.swing.JMenuItem jMenuItem11;
+    private javax.swing.JMenuItem jMenuItem12;
+    private javax.swing.JMenuItem jMenuItem13;
+    private javax.swing.JMenuItem jMenuItem14;
+    private javax.swing.JMenuItem jMenuItem15;
+    private javax.swing.JMenuItem jMenuItem16;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JMenuItem jMenuItem8;
+    private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JMenuItem opcionDatosEstudiantes;
     private javax.swing.JPanel panelContenedor;
     // End of variables declaration//GEN-END:variables

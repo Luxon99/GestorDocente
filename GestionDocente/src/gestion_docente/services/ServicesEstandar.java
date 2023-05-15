@@ -29,6 +29,10 @@ public class ServicesEstandar {
     public static String INSERT_YEAR = "insert_year";
 
     public static String PARAM_STUDENT = "(?,?,?,?,?)";
+    public static String PARAM_GROUP = "(?,?)";
+    public static String PARAM_EVALUATION = "(?,?,?)";
+    public static String PARAM_SUBJECT = "(?,?,?)";
+    public static String PARAM_YEAR = "(?,?)";
 
     public boolean delete_object(int id, String delete_function) throws SQLException {
 
@@ -49,6 +53,7 @@ public class ServicesEstandar {
      * @param object
      * @return boolean
      * @throws java.sql.SQLException
+     * @throws java.lang.IllegalAccessException
      */
     public boolean insert_object(String insert_function, String param_object, EstandarDTO object) throws SQLException, IllegalAccessException {
         String procedimiento = "{call " + insert_function + param_object + "}";

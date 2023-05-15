@@ -50,15 +50,16 @@ public class CreateStudent extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         namesTextField = new javax.swing.JTextField();
         surnamesTextField = new javax.swing.JTextField();
-        municipalityTextField = new javax.swing.JTextField();
         sexComboBox = new javax.swing.JComboBox<>();
         groupComboBox = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
         academicYearComboBox = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        municipalityComboBox = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Inserción de estudiantes");
 
         jLabel1.setText("Nombres");
 
@@ -73,12 +74,6 @@ public class CreateStudent extends javax.swing.JFrame {
         namesTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 namesTextFieldActionPerformed(evt);
-            }
-        });
-
-        municipalityTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                municipalityTextFieldActionPerformed(evt);
             }
         });
 
@@ -125,13 +120,13 @@ public class CreateStudent extends javax.swing.JFrame {
                     .addComponent(sexComboBox, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(surnamesTextField, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(namesTextField, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(municipalityTextField, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(academicYearComboBox, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(54, Short.MAX_VALUE))
+                    .addComponent(academicYearComboBox, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(municipalityComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(17, 17, 17)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addComponent(jButton2)
                 .addGap(44, 44, 44))
         );
@@ -153,7 +148,7 @@ public class CreateStudent extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(municipalityTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(municipalityComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
@@ -175,10 +170,6 @@ public class CreateStudent extends javax.swing.JFrame {
     private void namesTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_namesTextFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_namesTextFieldActionPerformed
-
-    private void municipalityTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_municipalityTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_municipalityTextFieldActionPerformed
     /**
      * Metodo que permite crear e insertar en la Base de datos Al nuevo
      * estudiante Con los datos pasados a los jTextField correspondientes
@@ -195,7 +186,7 @@ public class CreateStudent extends javax.swing.JFrame {
             if (sexComboBox.getSelectedItem().toString().equals("Masculino")) {
                 isMasculino = true;
             }
-            String municipality = municipalityTextField.getText();
+            String municipality = municipalityComboBox.getSelectedItem().toString();
 
 
             /*TODO hay que hacer un metodo que devuelva el id del grupo correspondiente al señalado por el usuario en la interfaz*/
@@ -315,7 +306,7 @@ public class CreateStudent extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JTextField municipalityTextField;
+    private javax.swing.JComboBox<String> municipalityComboBox;
     private javax.swing.JTextField namesTextField;
     private javax.swing.JComboBox<String> sexComboBox;
     private javax.swing.JTextField surnamesTextField;

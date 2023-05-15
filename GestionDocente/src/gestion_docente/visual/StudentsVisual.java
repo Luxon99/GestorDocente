@@ -53,6 +53,7 @@ public class StudentsVisual extends javax.swing.JPanel {
         jButton3 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
 
         studentsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -111,12 +112,21 @@ public class StudentsVisual extends javax.swing.JPanel {
             }
         });
 
+        jButton4.setText("Actualizar");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton2)
@@ -133,7 +143,8 @@ public class StudentsVisual extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton3)
                     .addComponent(jButton2)
-                    .addComponent(jButton1))
+                    .addComponent(jButton1)
+                    .addComponent(jButton4))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -175,10 +186,8 @@ public class StudentsVisual extends javax.swing.JPanel {
                 }
                 //actualizar tabla students
                 llenarTablaStudents();
-            } catch (ClassNotFoundException ex) {
+            } catch (ClassNotFoundException | SQLException ex) {
                 JOptionPane.showMessageDialog(null, "Ocurrió una excepción" + ex);
-            } catch (SQLException ex2) {
-                JOptionPane.showMessageDialog(null, "Ocurrió una excepción" + ex2);
             }
 
         } else {//no se selecciono ninguna fila
@@ -187,6 +196,17 @@ public class StudentsVisual extends javax.swing.JPanel {
         }
 
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        try {
+            // TODO add your handling code here:
+            llenarTablaStudents();
+        } catch (SQLException ex) {
+            Logger.getLogger(StudentsVisual.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(StudentsVisual.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     public void llenarTablaStudents() throws SQLException, ClassNotFoundException {
         StudentServices ss = ServicesLocator.getStudentServices();
@@ -198,6 +218,9 @@ public class StudentsVisual extends javax.swing.JPanel {
     }
 
     /**
+     * @param datos
+     * @return 
+     * @throws java.sql.SQLException
      * @auhtor Cesar Metodo que convierte un ArrayList<StudentDTO> a Object[][]
      */
     public Object[][] studentsToMatriz(ArrayList<StudentDTO> datos) throws SQLException {
@@ -237,6 +260,7 @@ public class StudentsVisual extends javax.swing.JPanel {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable studentsTable;
     // End of variables declaration//GEN-END:variables

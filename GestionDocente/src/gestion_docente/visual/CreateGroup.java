@@ -4,6 +4,9 @@
  */
 package gestion_docente.visual;
 
+import gestion_docente.dto.GroupDTO;
+import gestion_docente.services.GroupServices;
+import gestion_docente.services.ServicesLocator;
 import gestion_docente.utils.Connection;
 import javax.swing.JOptionPane;
 
@@ -56,6 +59,12 @@ public class CreateGroup extends javax.swing.JFrame {
             }
         });
 
+        yearComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                yearComboBoxActionPerformed(evt);
+            }
+        });
+
         groupSpinner.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -105,24 +114,17 @@ public class CreateGroup extends javax.swing.JFrame {
         // TODO add your handling code here:
         //obtener conexion a la base de datos
         try{
-            Connection conexion = new Connection("localhost", "sigedo", "postgres", "postgres", "5432");
-            java.sql.Connection miConexion = conexion.getConnection();
+            GroupServices gs = ServicesLocator.getGroupServices();
 
-            String procedimientoInsertGroup = "{call \"public\".\"insert_group\"(?,?,?)}";
+            int year = Integer.parseInt(yearComboBox.getSelectedItem().toString());
+            int group =Integer.parseInt(groupSpinner.getValue().toString());
 
-            java.sql.CallableStatement procInsertGroup = miConexion.prepareCall(procedimientoInsertGroup);//se crea el procedimiento CallableStatement el cual permite hacer llamadas a procedimietno almacenados en la Base de datos
-
-            procInsertGroup.setInt(1, Integer.parseInt(yearComboBox.getSelectedItem().toString()));
-            procInsertGroup.setInt(2, Integer.parseInt(groupSpinner.getValue().toString()));
-
-            if (procInsertGroup.execute()){
+            if (gs.insert_object(GroupServices.INSERT_GROUP,GroupServices.PARAM_GROUP , new GroupDTO(0,year,group))){
                 JOptionPane.showMessageDialog(null,"Grupo insertado correctamente");
             }else{
                 JOptionPane.showMessageDialog(null,"Grupo no fue insertado correctamente");
             }
 
-        }catch(ClassNotFoundException ex1){
-            JOptionPane.showMessageDialog(null, "Ocurrió una excepcion Class Not found Exception");
         }catch(Exception ex3){
             JOptionPane.showMessageDialog(null, ex3);
         }
@@ -133,6 +135,10 @@ public class CreateGroup extends javax.swing.JFrame {
         // TODO add your handling code here:
         dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void yearComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yearComboBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_yearComboBoxActionPerformed
 
     /**
      * @param args the command line arguments

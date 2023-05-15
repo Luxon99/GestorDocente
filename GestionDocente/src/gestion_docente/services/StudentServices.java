@@ -67,7 +67,7 @@ public class StudentServices extends ServicesEstandar{
     public ArrayList<StudentDTO> getAllStudents() throws SQLException, ClassNotFoundException {
 
         ArrayList<StudentDTO> listOfStudents = new ArrayList<>();
-        String function = "{?= call load_students()}";
+        String function = "{?= call load_student()}";
         java.sql.Connection connection = ServicesLocator.getConnection();
         connection.setAutoCommit(false);
         try (CallableStatement preparedFunction = connection.prepareCall(function)) {
