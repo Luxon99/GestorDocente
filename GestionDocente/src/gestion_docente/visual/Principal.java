@@ -4,6 +4,8 @@
  */
 package gestion_docente.visual;
 
+import gestion_docente.visual.EvaluationVisual.EvaluationsVisual;
+import gestion_docente.visual.StudentVisual.StudentsVisual;
 import java.awt.BorderLayout;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;

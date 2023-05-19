@@ -20,21 +20,20 @@ public class MunicipalitysServices extends ServicesEstandar {
 
     public ArrayList<MunicipalityDTO> getAllMunicipalities() throws SQLException, ClassNotFoundException {
 
-        ArrayList<MunicipalityDTO> listOfStudents = new ArrayList<>();
-        String function = "{?= call load_municipality()}";
+        ArrayList<MunicipalityDTO> municipalities = new ArrayList<>();
+
+        String query = "SELECT * FROM municipalitys";
+ 
         java.sql.Connection connection = ServicesLocator.getConnection();
-        connection.setAutoCommit(false);
-        try ( CallableStatement preparedFunction = connection.prepareCall(function)) {
-            preparedFunction.registerOutParameter(1, java.sql.Types.REF_CURSOR);
-            preparedFunction.execute();
-            try ( ResultSet resultSet = (ResultSet) preparedFunction.getObject(1)) {
-                while (resultSet.next()) {
-                    listOfStudents.add(new MunicipalityDTO(resultSet.getInt(1), resultSet.getString(2)));
-                }
-            }
+
+        ResultSet result = connection.createStatement().executeQuery(query);
+
+        while (result.next()) {
+            MunicipalityDTO newMuni = new MunicipalityDTO(result.getInt(1), result.getString(2));
+            municipalities.add(newMuni);
         }
 
-        return listOfStudents;
+        return municipalities;
     }
 
     public static void main(String[] args) {

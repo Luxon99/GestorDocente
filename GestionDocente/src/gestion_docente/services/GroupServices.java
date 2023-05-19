@@ -76,7 +76,7 @@ public class GroupServices extends ServicesEstandar {
     public ArrayList<GroupDTO> getAllGroups() throws SQLException, ClassNotFoundException {
 
         ArrayList<GroupDTO> listOfGroups = new ArrayList<>();
-        String function = "{?= call load_groups()}";
+        String function = "{?= call load_group()}";
         java.sql.Connection connection = ServicesLocator.getConnection();
         connection.setAutoCommit(false);
         try ( CallableStatement preparedFunction = connection.prepareCall(function)) {

@@ -2,11 +2,18 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package gestion_docente.visual;
+package gestion_docente.visual.EvaluationVisual;
+
+import gestion_docente.dto.EvaluationDTO;
+import gestion_docente.dto.StudentDTO;
+import gestion_docente.services.EvaluationServices;
+import gestion_docente.services.ServicesLocator;
+import gestion_docente.services.StudentServices;
 import gestion_docente.utils.Connection;
 import java.sql.SQLException;
 import java.sql.CallableStatement;
 import javax.swing.JOptionPane;
+
 /**
  *
  * @author César
@@ -117,32 +124,27 @@ public class CreateEvaluation extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         //obtener conexion a la base de datos
-        try{
-            Connection conexion = new Connection("localhost", "sigedo", "postgres", "postgres", "5432");
-            java.sql.Connection miConexion = conexion.getConnection();
+                EvaluationServices ss = ServicesLocator.getEvaluationServices();
 
-            String procedimientoInsertStudent = "{call \"public\".\"insert_evaluation\"(?,?,?,?)}";
+        try {
+            
+            
+            int evaluation = Integer.parseInt(evaluationSpinner.getValue().toString());
+            
+            //se le pasa cero al id porque en un final el id es serial plq es insertado autmaticamente
+            boolean insertar = ss.insert_object(EvaluationServices.INSERT_EVALUATION, EvaluationServices.PARAM_EVALUATION, new EvaluationDTO(0, , surname, evaluation));
 
-            CallableStatement procInsertEvaluation = miConexion.prepareCall(procedimientoInsertStudent);//se crea el procedimiento CallableStatement el cual permite hacer llamadas a procedimietno almacenados en la Base de datos
-
-            //aqui por el momento va un id inventado por mi despues se va a poner de forma automatica
-            procInsertEvaluation.setInt(1, 8);//se le pasa por parametro de IN 1 el id
-            procInsertEvaluation.setInt(2, 2);//se le pasa por parametro de IN 2 el id
-            procInsertEvaluation.setInt(3, 2);//se le pasa por parametro de IN 3 el id
-            procInsertEvaluation.setInt(4, Integer.parseInt(evaluationSpinner.getValue().toString()));//se le pasa por parametro de IN 4 el id
-
-            if (procInsertEvaluation.execute()){
-                JOptionPane.showMessageDialog(null,"Grupo creado e insertado correctamente");
-            }else{
-                JOptionPane.showMessageDialog(null,"Grupo no fue creado e insertado correctamente");
+            if (insertar) {
+                JOptionPane.showMessageDialog(null, "Estudiante creado e insertado correctamente");
+            } else {
+                JOptionPane.showMessageDialog(null, "Estudiante no fue creado e insertado correctamente");
             }
 
-        }catch(ClassNotFoundException ex1){
+        } catch (ClassNotFoundException ex1) {
             JOptionPane.showMessageDialog(null, "Ocurrio una excepcion Class Not found Exception");
-        }catch(SQLException ex3){
+        } catch (SQLException ex3) {
             JOptionPane.showMessageDialog(null, ex3);
-        }
-        catch(Exception ex3){
+        } catch (Exception ex3) {
             JOptionPane.showMessageDialog(null, ex3);
         }
     }//GEN-LAST:event_jButton1ActionPerformed

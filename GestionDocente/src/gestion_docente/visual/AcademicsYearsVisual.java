@@ -4,6 +4,16 @@
  */
 package gestion_docente.visual;
 
+import gestion_docente.services.*;
+import gestion_docente.dto.*;
+import gestion_docente.visual.StudentVisual.DeleteStudent;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author César
@@ -15,6 +25,7 @@ public class AcademicsYearsVisual extends javax.swing.JPanel {
      */
     public AcademicsYearsVisual() {
         initComponents();
+        cargarAnios();
     }
 
     /**
@@ -65,6 +76,11 @@ public class AcademicsYearsVisual extends javax.swing.JPanel {
         });
 
         jButton2.setText("Eliminar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Insertar");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -110,6 +126,37 @@ public class AcademicsYearsVisual extends javax.swing.JPanel {
         createAcademicsYear.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        if ((academicsYearsTable.getSelectedRow()) != -1) {//se selecciono una fila
+            AcademicYearServices ss = ServicesLocator.getAcademicYearServices();
+
+            try {
+                //obtengo todos los estudiantes
+                ArrayList<YearDTO> estudiantes = ss.getYears();
+                YearDTO seleccion = estudiantes.get(academicsYearsTable.getSelectedRow());
+                int id = seleccion.getId();
+                if (JOptionPane.showConfirmDialog(null, "Desea eliminar el año" + seleccion) == 0) {
+                    if (ss.delete_object(id, AcademicYearServices.DELETE_YEAR)) {
+                        JOptionPane.showMessageDialog(null, "Año eliminado correctamente");
+
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Año no fue eliminado correctamente");
+                    }
+                }
+                //actualizar tabla students
+                cargarAnios();
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Ocurrió una excepción" + ex);
+            }
+
+        } else {//no se selecciono ninguna fila
+
+            JOptionPane.showMessageDialog(null, "Seleccione un año antes de intentar eliminar");
+        }
+
+    }//GEN-LAST:event_jButton2ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable academicsYearsTable;
@@ -118,4 +165,37 @@ public class AcademicsYearsVisual extends javax.swing.JPanel {
     private javax.swing.JButton jButton3;
     private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
+
+    private void cargarAnios() {
+        AcademicYearServices ay = ServicesLocator.getAcademicYearServices();
+
+        try {
+            ArrayList<YearDTO> listDTO = ay.getYears();
+            academicsYearsTable.setModel(new DefaultTableModel(yearsToMatriz(listDTO),
+                    new String[]{"Año", "Curso Escolar"}));
+        } catch (SQLException ex) {
+            Logger.getLogger(AcademicsYearsVisual.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    public Object[][] yearsToMatriz(ArrayList<YearDTO> datos) throws SQLException {
+        // Convierte el ArrayList a Object[][]
+        Object[][] objectArray = new Object[datos.size()][2];
+
+        for (int i = 0; i < datos.size(); i++) {
+            for (int j = 0; j < 2; j++) {
+                if (j == 0) {
+                    objectArray[i][j] = datos.get(i).getYear();
+                }
+                if (j == 1) {
+                    objectArray[i][j] = datos.get(i).getSchollar_course();
+                }
+
+            }
+
+        }
+        return objectArray;
+
+    }
 }

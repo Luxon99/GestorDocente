@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package gestion_docente.visual;
+package gestion_docente.visual.StudentVisual;
 
 import gestion_docente.dto.*;
 import gestion_docente.services.GroupServices;

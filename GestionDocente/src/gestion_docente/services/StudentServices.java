@@ -49,6 +49,21 @@ public class StudentServices extends ServicesEstandar{
      * @throws java.sql.SQLException Esta funcion permite saber el id mas grande
      * que existe
      */
+    public String getStudentById(int id) throws SQLException {
+        String nombre="Desconocido";
+        String consulta = "SELECT students.name FROM students WHERE students.id_student="+id;
+        java.sql.Connection miConexion = ServicesLocator.getConnection();
+
+        Statement procGetIdMAsGrande = miConexion.createStatement();//se crea el procedimiento CallableStatement el cual permite hacer llamadas a procedimietno almacenados en la Base de datos
+        rs = procGetIdMAsGrande.executeQuery(consulta);
+        if (rs.next()) {//si la funcion se ejecuto correctamente
+            nombre = rs.getString(1);//obtengo el retorno de la funcion
+        }
+        procGetIdMAsGrande.close();
+        miConexion.close();
+        return nombre;
+    }
+
     public int getIdMasGrande() throws SQLException {
         int id = -1;
         String consulta = "SELECT max(id_student) as maximo FROM students";

@@ -2,7 +2,18 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package gestion_docente.visual;
+package gestion_docente.visual.EvaluationVisual;
+
+import gestion_docente.dto.*;
+import gestion_docente.services.*;
+import gestion_docente.services.ServicesLocator;
+import gestion_docente.visual.AcademicsYearsVisual;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -15,6 +26,51 @@ public class EvaluationsVisual extends javax.swing.JPanel {
      */
     public EvaluationsVisual() {
         initComponents();
+        cargarEvals();
+    }
+    
+    private void cargarEvals() {
+        EvaluationServices ay = ServicesLocator.getEvaluationServices();
+        
+        try {
+            ArrayList<EvaluationDTO> listDTO = ay.getAllEvaluations();
+            evaluationsTable.setModel(new DefaultTableModel(evalsToMatriz(listDTO),
+                new String[]{"Estudiante", "Asignatura","Evaluación"}));
+        } catch (SQLException ex) {
+            Logger.getLogger(AcademicsYearsVisual.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(EvaluationsVisual.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+    public Object[][] evalsToMatriz(ArrayList<EvaluationDTO> datos) throws SQLException {
+        // Convierte el ArrayList a Object[][]
+        Object[][] objectArray = new Object[datos.size()][3];
+
+        for (int i = 0; i < datos.size(); i++) {
+            for (int j = 0; j < 3; j++) {
+                if (j == 0) {
+                    StudentServices ss = ServicesLocator.getStudentServices();
+                    String estudiante = ss.getStudentById(datos.get(i).getId_student());
+                    objectArray[i][j] = estudiante;
+                }
+                if (j == 1) {
+                    
+                    SubjectServices ss = ServicesLocator.getSubjectServices();
+                    String asignatura = ss.getSubjectById(datos.get(i).getId_subject());
+                    
+                    objectArray[i][j] = asignatura;
+                }
+                
+                if (j == 2) {
+                    objectArray[i][j] = datos.get(i).getEvaluation();
+                }
+                
+            }
+
+        }
+        return objectArray;
+
     }
 
     /**
@@ -40,6 +96,11 @@ public class EvaluationsVisual extends javax.swing.JPanel {
         });
 
         jButton2.setText("Eliminar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton1.setText("Modificar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -110,6 +171,39 @@ public class EvaluationsVisual extends javax.swing.JPanel {
         CreateEvaluation createEvaluation = new CreateEvaluation();
         createEvaluation.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+          if ((evaluationsTable.getSelectedRow()) != -1) {//se selecciono una fila
+            EvaluationServices ss = ServicesLocator.getEvaluationServices();
+
+            try {
+                //obtengo todos los estudiantes
+                ArrayList<EvaluationDTO> evals = ss.getAllEvaluations();
+                EvaluationDTO seleccion = evals.get(evaluationsTable.getSelectedRow());
+                int id = seleccion.getId();
+                if (JOptionPane.showConfirmDialog(null, "Desea eliminar la evaluación" + seleccion) == 0) {
+                    if (ss.delete_object(id, EvaluationServices.DELETE_EVALUATION)) {
+                        JOptionPane.showMessageDialog(null, "Evaluación eliminado correctamente");
+
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Evaluación no fue eliminado correctamente");
+                    }
+                }
+                //actualizar tabla students
+                cargarEvals();
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Ocurrió una excepción" + ex);
+            } catch (ClassNotFoundException ex) {
+                  Logger.getLogger(EvaluationsVisual.class.getName()).log(Level.SEVERE, null, ex);
+              }
+
+        } else {//no se selecciono ninguna fila
+
+            JOptionPane.showMessageDialog(null, "Seleccione una evaluación antes de intentar eliminar");
+        }
+
+    }//GEN-LAST:event_jButton2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

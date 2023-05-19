@@ -4,12 +4,17 @@
  */
 package gestion_docente.visual;
 
+import gestion_docente.visual.EvaluationVisual.EvaluationsVisual;
+import gestion_docente.dto.EvaluationDTO;
 import gestion_docente.dto.SubjectDTO;
+import gestion_docente.services.EvaluationServices;
 import gestion_docente.services.ServicesLocator;
 import gestion_docente.services.StudentServices;
 import gestion_docente.services.SubjectServices;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -24,6 +29,7 @@ public class SubjectsVisual extends javax.swing.JPanel {
      */
     public SubjectsVisual() {
         initComponents();
+        cargarSubjs();
     }
 
     /**
@@ -114,7 +120,44 @@ public class SubjectsVisual extends javax.swing.JPanel {
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
+private void cargarSubjs() {
+        SubjectServices ay = ServicesLocator.getSubjectServices();
 
+        try {
+            ArrayList<SubjectDTO> listDTO = ay.getAllSubjects();
+            subjectsTable.setModel(new DefaultTableModel(subjsToMatriz(listDTO),
+                    new String[]{"Nombre", "Horas", "Año"}));
+        } catch (SQLException ex) {
+            Logger.getLogger(AcademicsYearsVisual.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(EvaluationsVisual.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    public Object[][] subjsToMatriz(ArrayList<SubjectDTO> datos) throws SQLException {
+        // Convierte el ArrayList a Object[][]
+        Object[][] objectArray = new Object[datos.size()][3];
+
+        for (int i = 0; i < datos.size(); i++) {
+            for (int j = 0; j < 3; j++) {
+                if (j == 0) {
+                    objectArray[i][j] = datos.get(i).getName_subject();
+                }
+                if (j == 1) {
+                    objectArray[i][j] = datos.get(i).getHours();
+                }
+
+                if (j == 2) {
+                    objectArray[i][j] = datos.get(i).getYear();
+                }
+
+            }
+
+        }
+        return objectArray;
+
+    }
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed

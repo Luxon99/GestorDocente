@@ -34,7 +34,7 @@ public class EvaluationServices extends ServicesEstandar{
     public ArrayList<EvaluationDTO> getAllEvaluations() throws SQLException, ClassNotFoundException {
 
         ArrayList<EvaluationDTO> listOfEvaluations = new ArrayList<>();
-        String function = "{?= call load_evaluations()}";
+        String function = "{?= call load_evaluation()}";
         java.sql.Connection connection = ServicesLocator.getConnection();
         connection.setAutoCommit(false);
         try ( CallableStatement preparedFunction = connection.prepareCall(function)) {

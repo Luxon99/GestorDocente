@@ -20,9 +20,9 @@ public class MunicipalityDTO extends EstandarDTO {
         this.name_municipality = name_municipality;
     }
 
-    public MunicipalityDTO(int id,String name_municipality) {
+    public MunicipalityDTO(int id, String name_municipality) {
         super(id);
         this.name_municipality = name_municipality;
     }
-    
+
 }
