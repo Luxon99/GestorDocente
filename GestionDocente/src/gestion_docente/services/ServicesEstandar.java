@@ -5,10 +5,13 @@
 package gestion_docente.services;
 
 import gestion_docente.dto.EstandarDTO;
+import gestion_docente.dto.MunicipalityDTO;
 import gestion_docente.dto.StudentDTO;
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  *
@@ -21,18 +24,29 @@ public class ServicesEstandar {
     public static String DELETE_SUBJECT = "delete_subject";
     public static String DELETE_GROUP = "delete_group";
     public static String DELETE_YEAR = "delete_year";
+    public static String DELETE_USSER = "delete_year";
 
     public static String INSERT_EVALUATION = "insert_evaluation";
     public static String INSERT_STUDENT = "insert_student";
     public static String INSERT_SUBJECT = "insert_subject";
     public static String INSERT_GROUP = "insert_group";
     public static String INSERT_YEAR = "insert_year";
+    public static String INSERT_USSER = "insert_year";
 
     public static String PARAM_STUDENT = "(?,?,?,?,?)";
     public static String PARAM_GROUP = "(?,?)";
     public static String PARAM_EVALUATION = "(?,?,?)";
     public static String PARAM_SUBJECT = "(?,?,?)";
     public static String PARAM_YEAR = "(?,?)";
+    public static String PARAM_USSER = "(?,?)";
+    
+    public static String LOAD_STUDENT = "load_student";
+    public static String LOAD_GROUP = "load_group";
+    public static String LOAD_EVALUATION = "load_evaluation";
+    public static String LOAD_SUBJECT = "load_subject";
+    public static String LOAD_YEAR = "load_year";
+    public static String LOAD_USSER = "load_usser";
+    
 
     public boolean delete_object(int id, String delete_function) throws SQLException {
 
@@ -71,5 +85,7 @@ public class ServicesEstandar {
         return proc.execute();
 
     }
+
+    
 
 }

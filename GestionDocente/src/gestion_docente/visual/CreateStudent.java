@@ -4,12 +4,13 @@
  */
 package gestion_docente.visual;
 
-import gestion_docente.dto.StudentDTO;
+import gestion_docente.dto.*;
 import gestion_docente.services.GroupServices;
 import gestion_docente.services.ServicesLocator;
 import javax.swing.JOptionPane;
-import gestion_docente.services.StudentServices;
+import gestion_docente.services.*;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -28,6 +29,7 @@ public class CreateStudent extends javax.swing.JFrame {
         try {
             cargarAnio();
             cargarGrupos();
+            cargarMunicipios();
         } catch (SQLException ex) {
             Logger.getLogger(CreateStudent.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -311,4 +313,21 @@ public class CreateStudent extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> sexComboBox;
     private javax.swing.JTextField surnamesTextField;
     // End of variables declaration//GEN-END:variables
+
+    private void cargarMunicipios() {
+       MunicipalitysServices ms = ServicesLocator.getMunicipalityServices();
+        try {
+            ArrayList<MunicipalityDTO> municipios = ms.getAllMunicipalities();
+            
+            for(MunicipalityDTO element: municipios){
+                municipalityComboBox.addItem(element.getName_municipality());
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(CreateStudent.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(CreateStudent.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       
+    }
 }

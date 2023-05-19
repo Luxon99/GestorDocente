@@ -20,7 +20,17 @@ public class ServicesLocator {
     private static AcademicYearServices academicYearServices = null;
     private static EvaluationServices evaluationServices = null;
     private static SubjectServices subjectServices = null;
+    private static MunicipalitysServices municipalityServices = null;
 
+    public static MunicipalitysServices getMunicipalityServices() {
+        return municipalityServices;
+    }
+
+    public static void setMunicipalityServices(MunicipalitysServices municipalityServices) {
+        ServicesLocator.municipalityServices = municipalityServices;
+    }
+    
+    
     public static StudentServices getStudentServices() {
         if (studentServices == null) {
             studentServices = new StudentServices();
